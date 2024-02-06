@@ -16,26 +16,51 @@ function product_importer_menu() {
 // Render the product importer page
 function product_importer_page() {
     ?>
-    <div class="wrap">
-        <h2>Nayden Product Importer</h2>
-        <form method="post" action="">
-            <label for="import_file">Upload CSV File:</label>
-            <input type="file" id="import_file" name="import_file">
-            <br><br>
-            <input type="checkbox" id="variable_products" name="variable_products">
-            <label for="variable_products">Import Variable Products</label>
-            <br><br>
-            <input type="submit" name="submit" class="button button-primary" value="Import Products">
-        </form>
-    </div>
+    <center>
+        <div id="wrap">
+            <h2>Nayden Product Importer</h2>
+            <form method="post" action="" enctype="multipart/form-data">
+                <label for="import_file">Upload CSV File:</label>
+                <input type="file" id="import_file" name="import_file">
+                <br><br>
+                <input type="checkbox" id="variable_products" name="variable_products">
+                <label for="variable_products">Import Variable Products</label>
+                <br><br>
+                <input type="submit" name="submit" class="button button-primary" value="Import Products">
+            </form>
+        
+        </div>
+    </center>  
     <?php
 }
 
+
+
+
 // Process the form submission
 function process_product_import() {
-    if (isset($_POST['action']) && $_POST['action'] === 'process_import' && isset($_FILES['import_file'])) {
-        // Handle file upload and product import here
-        $file = $_FILES['import_file'];
+    if (isset($_POST['submit']) && isset($_FILES['import_file'])) {
+        ?>
+        <center>
+            <?php
+            // Handle file upload and product import here
+            if ($_FILES['import_file']['error'] !== UPLOAD_ERR_OK) {
+                // Handle file upload error
+                echo "File upload failed with error code: " . $_FILES['import_file']['error'];
+                return;
+            }
+            $file = $_FILES['import_file'];
+            ?>
+        </center>
+        <?php
+        ?>
+        
+        <script src="..\wp-content\plugins\nayden-import\js\index.js"></script>
+        <center>
+            <div class="wrap">
+                <h2>Nayden Product Importer</h2>
+        </center>
+        <?php
         $variable_products = isset($_POST['variable_products']) ? true : false;
     }
 }
