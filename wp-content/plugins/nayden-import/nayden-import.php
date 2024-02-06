@@ -16,7 +16,6 @@ function product_importer_menu() {
 // Render the product importer page
 function product_importer_page() {
     ?>
-    <center>
         <div id="wrap">
             <h2>Nayden Product Importer</h2>
             <form method="post" action="" enctype="multipart/form-data">
@@ -30,36 +29,69 @@ function product_importer_page() {
             </form>
         
         </div>
-    </center>  
     <?php
 }
-
-
-
 
 // Process the form submission
 function process_product_import() {
     if (isset($_POST['submit']) && isset($_FILES['import_file'])) {
-        ?>
-        <center>
-            <?php
             // Handle file upload and product import here
             if ($_FILES['import_file']['error'] !== UPLOAD_ERR_OK) {
                 // Handle file upload error
                 echo "File upload failed with error code: " . $_FILES['import_file']['error'];
                 return;
             }
-            $file = $_FILES['import_file'];
-            ?>
-        </center>
-        <?php
+            // $file = $_FILES['import_file'];
+            $file = $_FILES['import_file']['tmp_name'];
+
+            // Open the file for reading
+            $handle = fopen($file, "r");
+        
+            // Check if the file opened successfully
+            if ($handle !== FALSE) {
+                // Get the column headers (first row)
+                $allLines = [];
+                $column_headers = fgetcsv($handle);
+
+                $first_row = fgetcsv($handle);
+                $allLines[] = $column_headers;
+                $allLines[] = $first_row;
+
+                // Read each line of the CSV file until the end
+                while (($line = fgetcsv($handle)) !== FALSE) {
+                    // Add the current line to the array
+                    $allLines[] = $line;
+                }
+                
+                echo "All lines: " . sizeof($allLines);
+                // Close the file handle
+                fclose($handle);
+        
+                // $column_headers now contains an array of column headers from the CSV file
+                // You can use this array to dynamically populate options in your HTML select element
+                // For example, you can encode this array as JSON and pass it to JavaScript
+                $column_headers_json = json_encode($column_headers);
+                $first_row_json = json_encode($first_row);
+                
+                echo '<script>';
+                echo 'var columnHeaders = ' . $column_headers_json . ';';
+                echo 'var firstRow = ' . $first_row_json . ';';
+                echo '</script>';
+                // Pass $column_headers_json to your HTML/JavaScript for dynamic population of options
+            } else {
+                // Error opening file
+                echo "Error opening the CSV file.";
+            }
         ?>
         
         <script src="..\wp-content\plugins\nayden-import\js\index.js"></script>
-        <center>
+        <!-- <center>
             <div class="wrap">
                 <h2>Nayden Product Importer</h2>
-        </center>
+                <label for="title">Title: </label>
+                <input type="text" id="title" name="title">
+                <br><br>
+            </div> -->
         <?php
         $variable_products = isset($_POST['variable_products']) ? true : false;
     }
