@@ -1,5 +1,7 @@
 // var columnHeaders = null;
 
+
+
 function populateSelectOptions(selectId, options, firstRowValue) {
     // Get a reference to the container div
     var container = document.getElementById('wrap');
@@ -119,18 +121,20 @@ function sendSelectedColumn(columnHeaders) {
         
         // Send selected column to server using AJAX
         // Example using fetch API
-        fetch('admin.php?page=nayden-product-importer', {
+
+        
+        fetch('www.goasdksaod.com', {
             method: 'POST',
-            body: JSON.stringify({ column: selectedColumn }),
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({ column: selectedColumn }),
         })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.text();
+            return response.json();
         })
         .then(data => {
             console.log(data); // Log response from server
@@ -147,3 +151,10 @@ document.addEventListener("DOMContentLoaded", function() {
         populateAllSelectOptions(columnHeaders, firstRow);
     }
 });
+
+// module.exports = {
+//     sendSelectedColumn,
+//     sendSelectedColumn,
+//     populateAllSelectOptions,
+//     populateSelectOptions
+// }

@@ -1,4 +1,6 @@
 <?php
+// require('./js/index.js')
+// sendSelectedColum()
 /**
  * Plugin Name: Nayden Import
  * Description: desc
@@ -21,11 +23,11 @@ function product_importer_page() {
             <form method="post" action="" enctype="multipart/form-data">
                 <label for="import_file">Upload CSV File:</label>
                 <input type="file" id="import_file" name="import_file">
+                <!-- <br><br> -->
+                <!-- <input type="checkbox" id="variable_products" name="variable_products"> -->
+                <!-- <label for="variable_products">Import Variable Products</label> -->
                 <br><br>
-                <input type="checkbox" id="variable_products" name="variable_products">
-                <label for="variable_products">Import Variable Products</label>
-                <br><br>
-                <input type="submit" name="submit" class="button button-primary" value="Import Products">
+                <input type="submit" name="submit" value="Import Products">
             </form>
         
         </div>
@@ -34,6 +36,9 @@ function product_importer_page() {
 
 // Process the form submission
 function process_product_import() {
+
+    
+
     if (isset($_POST['submit']) && isset($_FILES['import_file'])) {
         // Handle file upload and product import here
         if ($_FILES['import_file']['error'] !== UPLOAD_ERR_OK) {
@@ -76,8 +81,8 @@ function process_product_import() {
             // Pass $column_headers_json to your HTML/JavaScript for dynamic population of options
             ?>
             <script>
-                    var columnHeaders = <?php echo $column_headers_json; ?>;
-                    var firstRow = <?php echo $first_row_json; ?>;
+                    let columnHeaders = <?php echo $column_headers_json; ?>;
+                    let firstRow = <?php echo $first_row_json; ?>;
             </script>
             <?php
         } else {
