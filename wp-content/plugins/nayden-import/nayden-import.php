@@ -11,35 +11,41 @@
  * 
  */
 // Add a menu item to the WordPress admin menu
-function product_importer_menu() {
-    add_menu_page( 'Nayden Product Importer', 'Nayden Product Importer', 'manage_options', 'nayden-product-importer', 'product_importer_page' );
+function product_importer_menu()
+{
+    add_menu_page('Nayden Product Importer', 'Nayden Product Importer', 'manage_options', 'nayden-product-importer', 'product_importer_page');
 }
 
 // Render the product importer page
-function product_importer_page() {
+function product_importer_page()
+{
     ?>
-        <div id="wrap">
-            <h2>Nayden Product Importer</h2>
-            <form method="post" action="" enctype="multipart/form-data">
-                <label for="import_file">Upload CSV File:</label>
-                <input type="file" id="import_file" name="import_file">
-                <!-- <br><br> -->
-                <!-- <input type="checkbox" id="variable_products" name="variable_products"> -->
-                <!-- <label for="variable_products">Import Variable Products</label> -->
-                <br><br>
-                <input type="submit" name="submit" value="Import Products">
-            </form>
-        
-        </div>
+    <div id="wrap">
+        <h2>Nayden Product Importer</h2>
+        <form method="post" action="" enctype="multipart/form-data">
+            <label for="import_file">Upload CSV File:</label>
+            <input type="file" id="import_file" name="import_file">
+            <!-- <br><br> -->
+            <!-- <input type="checkbox" id="variable_products" name="variable_products"> -->
+            <!-- <label for="variable_products">Import Variable Products</label> -->
+            <br><br>
+            <input type="submit" name="submit" value="Import Products">
+
+        </form>
+
+    </div>
     <?php
 }
 
 // Process the form submission
-function process_product_import() {
+function process_product_import()
+{
 
-    
+
 
     if (isset($_POST['submit']) && isset($_FILES['import_file'])) {
+
+        echo 'im inside be';
         // Handle file upload and product import here
         if ($_FILES['import_file']['error'] !== UPLOAD_ERR_OK) {
             // Handle file upload error
@@ -48,10 +54,10 @@ function process_product_import() {
         }
         // $file = $_FILES['import_file'];
         $file = $_FILES['import_file']['tmp_name'];
-
+        echo $file;
         // Open the file for reading
         $handle = fopen($file, "r");
-    
+
         // Check if the file opened successfully
         if ($handle !== FALSE) {
             // Get the column headers (first row)
@@ -67,22 +73,22 @@ function process_product_import() {
             //     // Add the current line to the array
             //     $allLines[] = $line;
             // }
-            
+
             // echo "All lines: " . sizeof($allLines);
             // Close the file handle
             fclose($handle);
-    
+
             // $column_headers now contains an array of column headers from the CSV file
             // You can use this array to dynamically populate options in your HTML select element
             // For example, you can encode this array as JSON and pass it to JavaScript
             $column_headers_json = json_encode($column_headers);
             $first_row_json = json_encode($first_row);
-            
+
             // Pass $column_headers_json to your HTML/JavaScript for dynamic population of options
             ?>
             <script>
-                    let columnHeaders = <?php echo $column_headers_json; ?>;
-                    let firstRow = <?php echo $first_row_json; ?>;
+                let columnHeaders = <?php echo $column_headers_json; ?>;
+                let firstRow = <?php echo $first_row_json; ?>;
             </script>
             <?php
         } else {
@@ -90,7 +96,7 @@ function process_product_import() {
             echo "Error opening the CSV file.";
         }
         ?>
-        
+
         <script src="..\wp-content\plugins\nayden-import\js\index.js"></script>
         <?php
         $variable_products = isset($_POST['variable_products']) ? true : false;
@@ -114,9 +120,12 @@ function process_product_import() {
         // fclose($handle);
     }
 }
-if(!defined('ABSPATH')){
+if (!defined('ABSPATH')) {
     echo 'What are you trying to do?';
     exit();
+
+
+
 }
-add_action( 'admin_menu', 'product_importer_menu' );
-add_action( 'admin_init', 'process_product_import' );
+add_action('admin_menu', 'product_importer_menu');
+add_action('admin_init', 'process_product_import');
