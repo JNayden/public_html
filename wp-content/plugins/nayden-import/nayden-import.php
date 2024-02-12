@@ -15,11 +15,16 @@ function product_importer_menu() {
     add_menu_page( 'Nayden Product Importer', 'Nayden Product Importer', 'manage_options', 'nayden-product-importer', 'product_importer_page' );
 }
 
+function myplugin_enqueue_styles() {
+    // Enqueue your CSS file
+    wp_enqueue_style('myplugin-custom-style', plugins_url('wp-content\plugins\nayden-import\css\style.css', __FILE__));
+}
+
 // Render the product importer page
 function product_importer_page() {
     ?>
         <div id="wrap">
-            <h2>Nayden Product Importer</h2>
+            <h2 class="main-heading">Nayden Product Importer</h2>
             <form method="post" action="" enctype="multipart/form-data">
                 <label for="import_file">Upload CSV File:</label>
                 <input type="file" id="import_file" name="import_file">
@@ -118,5 +123,9 @@ if(!defined('ABSPATH')){
     echo 'What are you trying to do?';
     exit();
 }
+
+
+
+add_action('wp_enqueue_scripts', 'myplugin_enqueue_styles');
 add_action( 'admin_menu', 'product_importer_menu' );
 add_action( 'admin_init', 'process_product_import' );

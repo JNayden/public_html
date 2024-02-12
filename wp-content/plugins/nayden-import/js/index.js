@@ -1,41 +1,71 @@
 // var columnHeaders = null;
-
-// global var columnHeaders firstRow
-
-
-
-function asdf() {
-    console.log('asd')
-
-    console.log(columnHeaders)
-    console.log(firstRow)
-}
-asdf()
+// global variables are: columnHeaders firstRow
+// import './index.css'
 
 function populateSelectOptions(selectId, options, firstRowValue) {
-    console.log('asdf');
-
     // Get a reference to the container div
-    var container = document.getElementById('wrap');
 
-    var table = document.createElement('table');
-    container.appendChild(table);
+    console.log('inside');
+    // // console.log(columnHeaders);
+    // // console.log(firstRow);
 
-    // Create and append form elements
-    var tr = document.createElement('tr');
-    var tdLabel = document.createElement('td');
-    var tdSelect = document.createElement('td');
+    // let mainContainerDiv = document.createElement('div');
+    // let mainHeading = document.createElement('h1');
+    // mainHeading.classList.add('main-container-heading');
+    // container.appendChild(mainHeading);
 
-    var label = document.createElement('label');
-    var maxLength = 40;
+    // mainHeading.textContent = 'Initialize your products';
+
+    // let productDiv = document.createElement('div');
+    // let productNameDiv = document.createElement('div');
+    // let productOptionDiv = document.createElement('div');
+    // productDiv.appendChild(productNameDiv);
+    // productDiv.appendChild(productOptionDiv);
+
+
+
+
+
+
+
+
+    // container.appendChild(mainContainerDiv);
+
+
+
+
+
+    let container = document.getElementById('wrap');
+
+
+    let productDiv = document.createElement('div');
+
+
+    container.appendChild(productDiv);
+
+    let tr = document.createElement('div');
+    tr.classList.add('tr')
+    tr.style.width='50%'
+    tr.style.display = 'flex'
+    tr.style.justifyContent = 'space-around'
+    tr.style.alignItems = 'center'
+    tr.style.padding = '15px'
+
+
+    let tdLabel = document.createElement('div');
+    let tdSelect = document.createElement('div');
+
+    let label = document.createElement('label');
+    maxLength = 40;
     label.textContent = selectId.replace(/-/g, ' ') + ': ';
-    var shortenedValue = label.textContent.length > maxLength ? label.textContent.substring(0, maxLength) : label.textContent;
+
+    let shortenedValue = label.textContent.length > maxLength ? label.textContent.substring(0, maxLength) : label.textContent;
     label.textContent = shortenedValue;
     label.style.paddingRight = '10px';
     tdLabel.appendChild(label);
 
     // Create and append form elements
-    var select = document.createElement("select");
+    let select = document.createElement("select");
     // Set the id attribute
     select.id = selectId;
     select.style.width = '200px';
@@ -65,7 +95,7 @@ function populateSelectOptions(selectId, options, firstRowValue) {
     tr.appendChild(tdLabel);
     tr.appendChild(tdSelect);
 
-    table.appendChild(tr);
+    productDiv.appendChild(tr);
     // Add a grayed text span under the label
     var span = document.createElement('span');
     var maxLength = 50; // Maximum length of the span text
@@ -131,15 +161,29 @@ function sendSelectedColumn(columnHeaders) {
         var select = document.getElementById(columnHeader);
         var selectedColumn = select.value;
 
-        console.log(selectedColumn);
+        // Send selected column to server using AJAX
+        // Example using fetch API
 
 
-        
-
-
-
-
-
+        fetch('www.goasdksaod.com', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ column: selectedColumn }),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data); // Log response from server
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
     })
 }
 
