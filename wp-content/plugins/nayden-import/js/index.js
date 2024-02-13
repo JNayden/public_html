@@ -17,18 +17,18 @@ function populateSelectOptions(selectId, options, firstRowValue) {
 
     let tr = document.createElement('div');
     tr.classList.add('tr')
-    tr.style.width='50%'
+    tr.style.width = '50%'
     tr.style.display = 'grid'
-    tr.style.gridTemplateAreas='leftSide rightSide';
-    tr.style.gridTemplateAreas='60% 40%'
+    tr.style.gridTemplateAreas = 'leftSide rightSide';
+    tr.style.gridTemplateAreas = '60% 40%'
     tr.style.alignItems = 'center'
     tr.style.padding = '40px'
 
 
     let tdLabel = document.createElement('div');
-    tdLabel.style.gridArea='leftSide'
+    tdLabel.style.gridArea = 'leftSide'
     let tdSelect = document.createElement('div');
-    tdSelect.style.gridArea='rightSide'
+    tdSelect.style.gridArea = 'rightSide'
     let label = document.createElement('label');
     maxLength = 40;
     label.textContent = selectId.replace(/-/g, ' ') + ': ';
@@ -106,24 +106,26 @@ function populateSelectOptions(selectId, options, firstRowValue) {
 
 // Function to populate all select options
 function populateAllSelectOptions(columnHeaders, firstRow) {
-    var container = document.getElementById('wrap');
-    var columns = [];
-    columnHeaders.forEach(function (columnHeader) {
+    let container = document.getElementById('wrap');
+    let columns = [];
+    columnHeaders.forEach((columnHeader) => {
         columns.push(columnHeader)
     })
     container.innerHTML = '';
     // Populate options for each select element
-    columns.map(function (column, index) {
-        var firstRowValue = firstRow[index];
+    columns.map((column, index) => {
+        let firstRowValue = firstRow[index];
         populateSelectOptions(column, columnHeaders, firstRowValue);
     })
-    var button = document.createElement('button');
+    let button = document.createElement('button');
     button.textContent = 'Submit';
 
     // Add event listener to the button
-    button.addEventListener('click', function () {
-        sendSelectedColumn(columnHeaders);
-    });
+    button.addEventListener('click',
+        function () {
+            sendSelectedColumn(columnHeaders);
+        }
+    );
 
     // Append the button to the document body or any desired container
     container.appendChild(button);
