@@ -1,39 +1,11 @@
 // var columnHeaders = null;
 // global variables are: columnHeaders firstRow
-// import './index.css'
+
 
 function populateSelectOptions(selectId, options, firstRowValue) {
     // Get a reference to the container div
 
     console.log('inside');
-    // // console.log(columnHeaders);
-    // // console.log(firstRow);
-
-    // let mainContainerDiv = document.createElement('div');
-    // let mainHeading = document.createElement('h1');
-    // mainHeading.classList.add('main-container-heading');
-    // container.appendChild(mainHeading);
-
-    // mainHeading.textContent = 'Initialize your products';
-
-    // let productDiv = document.createElement('div');
-    // let productNameDiv = document.createElement('div');
-    // let productOptionDiv = document.createElement('div');
-    // productDiv.appendChild(productNameDiv);
-    // productDiv.appendChild(productOptionDiv);
-
-
-
-
-
-
-
-
-    // container.appendChild(mainContainerDiv);
-
-
-
-
 
     let container = document.getElementById('wrap');
 
@@ -46,15 +18,17 @@ function populateSelectOptions(selectId, options, firstRowValue) {
     let tr = document.createElement('div');
     tr.classList.add('tr')
     tr.style.width='50%'
-    tr.style.display = 'flex'
-    tr.style.justifyContent = 'space-around'
+    tr.style.display = 'grid'
+    tr.style.gridTemplateAreas='leftSide rightSide';
+    tr.style.gridTemplateAreas='60% 40%'
     tr.style.alignItems = 'center'
-    tr.style.padding = '15px'
+    tr.style.padding = '40px'
 
 
     let tdLabel = document.createElement('div');
+    tdLabel.style.gridArea='leftSide'
     let tdSelect = document.createElement('div');
-
+    tdSelect.style.gridArea='rightSide'
     let label = document.createElement('label');
     maxLength = 40;
     label.textContent = selectId.replace(/-/g, ' ') + ': ';
@@ -71,13 +45,13 @@ function populateSelectOptions(selectId, options, firstRowValue) {
     select.style.width = '200px';
     tdSelect.appendChild(select);
 
-    container.appendChild(document.createElement('br'));
-    container.appendChild(document.createElement('br'));
+    // container.appendChild(document.createElement('br')); for delete
+    // container.appendChild(document.createElement('br')); for delete
     // Clear existing options
     select.innerHTML = '';
 
     // Add default option
-    var defaultOption = document.createElement('option');
+    let defaultOption = document.createElement('option');
     defaultOption.value = '';
     defaultOption.text = '-- Select --';
     select.appendChild(defaultOption);
@@ -85,7 +59,7 @@ function populateSelectOptions(selectId, options, firstRowValue) {
     // Add options from the array
     options.forEach(function (option) {
         // console.log(option);
-        var optionElement = document.createElement('option');
+        let optionElement = document.createElement('option');
         optionElement.value = option;
         optionElement.text = option;
         select.appendChild(optionElement);
@@ -97,25 +71,25 @@ function populateSelectOptions(selectId, options, firstRowValue) {
 
     productDiv.appendChild(tr);
     // Add a grayed text span under the label
-    var span = document.createElement('span');
-    var maxLength = 50; // Maximum length of the span text
+    let labelSapnOne = document.createElement('span');
+    let maxLength = 50; // Maximum length of the span text
     if (firstRowValue.length > maxLength) {
         shortenedValue = firstRowValue.substring(0, maxLength)
-        span.textContent = '(First row: ' + shortenedValue;
-        span.style.color = '#888'; // Gray color
-        span.style.fontSize = "12px";
+        labelSapnOne.textContent = '(First row: ' + shortenedValue;
+        labelSapnOne.style.color = '#888'; // Gray color
+        labelSapnOne.style.fontSize = "12px";
 
-        var span2 = document.createElement('span');
-        var shortenedValue2 = firstRowValue.substring(maxLength, 80) + ' ...';
-        span2.textContent = "\n" + shortenedValue2 + ')';
-        span2.style.color = '#888'; // Gray color
-        span2.style.fontSize = "12px";
+        let labelSpanTwo = document.createElement('span');
+        let shortenedValue2 = firstRowValue.substring(maxLength, 80) + ' ...';
+        labelSpanTwo.textContent = "\n" + shortenedValue2 + ')';
+        labelSpanTwo.style.color = '#888'; // Gray color
+        labelSpanTwo.style.fontSize = "12px";
 
         label.appendChild(document.createElement('br')); // Add line break
-        label.appendChild(span);
+        label.appendChild(labelSapnOne);
 
         label.appendChild(document.createElement('br'));
-        label.appendChild(span2);
+        label.appendChild(labelSpanTwo);
     } else {
         shortenedValue = firstRowValue;
         span.textContent = '(First row: ' + shortenedValue + ')';
@@ -123,7 +97,7 @@ function populateSelectOptions(selectId, options, firstRowValue) {
         span.style.fontSize = "12px";
 
         label.appendChild(document.createElement('br')); // Add line break
-        label.appendChild(span);
+        label.appendChild(labelSapnOne);
     }
 
     // Create a button element
