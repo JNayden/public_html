@@ -30,7 +30,7 @@ function populateSelectOptions(selectId, options, firstRowValue) {
     let tdSelect = document.createElement('div');
     tdSelect.style.gridArea = 'rightSide'
     let label = document.createElement('label');
-    maxLength = 40;
+    var maxLength = 40;
     label.textContent = selectId.replace(/-/g, ' ') + ': ';
 
     let shortenedValue = label.textContent.length > maxLength ? label.textContent.substring(0, maxLength) : label.textContent;
@@ -132,10 +132,13 @@ function populateAllSelectOptions(columnHeaders, firstRow) {
 }
 
 function sendSelectedColumn(columnHeaders) {
+    // защо пол
+
+
     columnHeaders.forEach(function (columnHeader) {
 
-        var select = document.getElementById(columnHeader);
-        var selectedColumn = select.value;
+        let select = document.getElementById(columnHeader);
+        let selectedColumn = select.value;
 
         // Send selected column to server using AJAX
         // Example using fetch API
