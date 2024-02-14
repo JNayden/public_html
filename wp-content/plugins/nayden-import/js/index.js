@@ -6,6 +6,7 @@ function populateSelectOptions(selectId, options, firstRowValue) {
     // Get a reference to the container div
 
     console.log('inside');
+    var maxLength = 40;
 
     let container = document.getElementById('wrap');
 
@@ -30,9 +31,8 @@ function populateSelectOptions(selectId, options, firstRowValue) {
     let tdSelect = document.createElement('div');
     tdSelect.style.gridArea = 'rightSide'
     let label = document.createElement('label');
-    var maxLength = 40;
     label.textContent = selectId.replace(/-/g, ' ') + ': ';
-
+    
     let shortenedValue = label.textContent.length > maxLength ? label.textContent.substring(0, maxLength) : label.textContent;
     label.textContent = shortenedValue;
     label.style.paddingRight = '10px';
