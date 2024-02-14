@@ -95,50 +95,83 @@ function populateAllSelectOptions(columnHeaders, firstRow) {
     })
     container.innerHTML = '';
     // Populate options for each select element
+    // in order to loop in both of arrays
     columns.map(function(column, index) {
         var firstRowValue = firstRow[index];
         populateSelectOptions(column, columnHeaders, firstRowValue);
     })
+
+    form = formCreation();
+    container.appendChild(form);
+
+    form.button.addEventListener('click',  function() {
+        sendSelectedColumn(firstRow);
+        // returnDataSync(columnHeaders);
+    });
+ 
+    // Append the button to the document body or any desired container
+}
+function formCreation(){
+    // Create a form element
+    var form = document.createElement('form');
+    form.id = 'dataForm';
+    form.enctype = "multipart/form-data";
+    form.method = 'post';
+    
+
+    // // Create an input element for fetched data
+    var dataInput = document.createElement('input');
+    dataInput.type = 'hidden';
+    dataInput.id = 'inputData';
+    dataInput.name = 'fetchedData';
+
+    
     var button = document.createElement('button');
+    button.type = 'button';
+    button.id = 'submitButton';
     button.textContent = 'Submit';
 
-    // Add event listener to the button
-    button.addEventListener('click',  function() {
-        sendSelectedColumn(columnHeaders);
-    });
-
-    // Append the button to the document body or any desired container
-    container.appendChild(button);
+    form.appendChild(button);
+    
+    form.button = button;
+    return form
 }
 
-function sendSelectedColumn(columnHeaders) {
-    columnHeaders.forEach(function(columnHeader){
-    
-        var select = document.getElementById(columnHeader);
-        var selectedColumn = select.value;
+function sendSelectedColumn(firstRow) {
+    var productArgs = {};
+    columnHeaders.map(function(columnHeader, index){
+        var firstRowValue = '';
+        var selectElement = document.getElementById(columnHeader);
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+        if (selectedOption.value !== '-- Select --' && selectedOption.value.length !== 0) {
+            // A valid option other than "--Select--" is chosen
+            console.log('Option selected:', selectedOption.value);
+            firstRowValue = firstRow[index];
+            var selectedOptionValue = selectedOption.value;
+            productArgs[selectedOptionValue] = firstRowValue;
+        } 
         
-        // Send selected column to server using AJAX
-        // Example using fetch API
-        fetch('admin.php?page=nayden-product-importer', {
-            method: 'POST',
-            body: JSON.stringify({ column: selectedColumn }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(data => {
-            console.log(data); // Log response from server
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-        });
     })
+    console.log(JSON.stringify(productArgs));
+    fetch('../wp-content/plugins/nayden-import/nayden-import.php', {
+        method: 'POST',
+        body: JSON.stringify(productArgs),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        console.log(data); // Log response from server
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
 }
 
 document.addEventListener("DOMContentLoaded", function() {
