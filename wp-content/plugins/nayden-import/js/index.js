@@ -20,8 +20,8 @@ function populateSelectOptions(selectId, options, firstRowValue) {
     tr.classList.add('tr')
     tr.style.width = '50%'
     tr.style.display = 'grid'
-    tr.style.gridTemplateAreas = 'leftSide rightSide';
-    tr.style.gridTemplateAreas = '60% 40%'
+    tr.style.gridTemplateAreas='"leftSide rightSide"';
+    tr.style.gridAutoColumns='60% 40%'
     tr.style.alignItems = 'center'
     tr.style.padding = '40px'
 
@@ -72,7 +72,7 @@ function populateSelectOptions(selectId, options, firstRowValue) {
     productDiv.appendChild(tr);
     // Add a grayed text span under the label
     let labelSapnOne = document.createElement('span');
-    let maxLength = 50; // Maximum length of the span text
+     maxLength = 50; // Maximum length of the span text
     if (firstRowValue.length > maxLength) {
         shortenedValue = firstRowValue.substring(0, maxLength)
         labelSapnOne.textContent = '(First row: ' + shortenedValue;
@@ -92,9 +92,9 @@ function populateSelectOptions(selectId, options, firstRowValue) {
         label.appendChild(labelSpanTwo);
     } else {
         shortenedValue = firstRowValue;
-        span.textContent = '(First row: ' + shortenedValue + ')';
-        span.style.color = '#888'; // Gray color
-        span.style.fontSize = "12px";
+        labelSapnOne.textContent = '(First row: ' + shortenedValue + ')';
+        labelSapnOne.style.color = '#888'; // Gray color
+        labelSapnOne.style.fontSize = "12px";
 
         label.appendChild(document.createElement('br')); // Add line break
         label.appendChild(labelSapnOne);
