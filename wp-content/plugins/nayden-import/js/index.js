@@ -20,8 +20,8 @@ function populateSelectOptions(selectId, options, firstRowValue) {
     tr.classList.add('tr')
     tr.style.width = '50%'
     tr.style.display = 'grid'
-    tr.style.gridTemplateAreas='"leftSide rightSide"';
-    tr.style.gridAutoColumns='60% 40%'
+    tr.style.gridTemplateAreas = '"leftSide rightSide"';
+    tr.style.gridAutoColumns = '60% 40%'
     tr.style.alignItems = 'center'
     tr.style.padding = '40px'
 
@@ -32,7 +32,7 @@ function populateSelectOptions(selectId, options, firstRowValue) {
     tdSelect.style.gridArea = 'rightSide'
     let label = document.createElement('label');
     label.textContent = selectId.replace(/-/g, ' ') + ': ';
-    
+
     let shortenedValue = label.textContent.length > maxLength ? label.textContent.substring(0, maxLength) : label.textContent;
     label.textContent = shortenedValue;
     label.style.paddingRight = '10px';
@@ -72,7 +72,7 @@ function populateSelectOptions(selectId, options, firstRowValue) {
     productDiv.appendChild(tr);
     // Add a grayed text span under the label
     let labelSapnOne = document.createElement('span');
-     maxLength = 50; // Maximum length of the span text
+    maxLength = 50; // Maximum length of the span text
     if (firstRowValue.length > maxLength) {
         shortenedValue = firstRowValue.substring(0, maxLength)
         labelSapnOne.textContent = '(First row: ' + shortenedValue;
@@ -140,30 +140,42 @@ function sendSelectedColumn(columnHeaders) {
         let select = document.getElementById(columnHeader);
         let selectedColumn = select.value;
 
-        // Send selected column to server using AJAX
-        // Example using fetch API
+        console.log('inside fetch func')
 
-
-        fetch('www.goasdksaod.com', {
+        fetch(ajaxurl, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ column: selectedColumn }),
+            body: new URLSearchParams({
+                'action': 'my_action',
+                'data': "ei tuka ei tui"
+            })
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log(data); // Log response from server
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
-    })
+    //     fetch(ajaxurl, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: new URLSearchParams({
+    //             'action': 'my_ajax_action',
+    //             'data': "ei tuka ei tui"
+    //         })
+    //         // body: JSON.stringify(selectedColumn),
+    //     })
+    //         .then(response => {
+    //             if (!response.ok) {
+    //                 throw new Error('Network response was not ok');
+    //             }
+    //             // console.log(response)
+    //             return response.text();
+    //         })
+    //         .then(data => {
+    //             console.log(data); // Log response from server
+    //         })
+    //         .catch(error => {
+    //             console.error('There was a problem with the fetch operation:', error);
+    //         });
+       })
+
+
 }
 
 document.addEventListener("DOMContentLoaded", function () {

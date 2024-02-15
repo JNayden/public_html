@@ -1,4 +1,6 @@
 <?php
+require_once(__DIR__.'../../../../wp-load.php');
+
 // require('./js/index.js')
 // sendSelectedColum()
 /**
@@ -119,13 +121,36 @@ function process_product_import() {
         // fclose($handle);
     }
 }
-if(!defined('ABSPATH')){
-    echo 'What are you trying to do?';
-    exit();
+// if(!defined('ABSPATH')){
+//     echo 'What are you trying to do?';
+//     exit();
+// }
+
+
+
+add_action('wp_ajax_my_action', 'my_action');
+add_action('wp_ajax_nopriv_my_action', 'my_action'); // За анонимни потребители
+
+function my_action() {
+    // Проверка за безопасност
+    check_ajax_referer('my_action_nonce', 'security');
+
+    // Получаване на данните от AJAX заявката
+    $data = $_POST['data'];  // Access the data sent from JavaScript
+
+    // Обработка на получените данни
+    // Например, можете да ги използвате за извикване на определена функция или за извършване на други действия
+
+    // Изпращане на отговор обратно към клиента
+    echo 'Данните са получени успешно. Data: ' . $data;
+
+    // Приключване на изпълнението на PHP скрипта
+    wp_die();
 }
 
 
 
 add_action('wp_enqueue_scripts', 'myplugin_enqueue_styles');
+
 add_action( 'admin_menu', 'product_importer_menu' );
 add_action( 'admin_init', 'process_product_import' );
